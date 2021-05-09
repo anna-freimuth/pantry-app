@@ -1,23 +1,28 @@
 package anna.freimuth.controller;
 
-import anna.freimuth.entity.Product;
-import anna.freimuth.entity.ProductMap;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import anna.freimuth.entity.ItemType;
+import anna.freimuth.service.ItemService;
+import anna.freimuth.service.ItemTypeService;
+import anna.freimuth.service.requests.CreateProductRequest;
+import anna.freimuth.service.responses.ItemResponse;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
-
-@Controller
+@RequestMapping("/products")
+@RestController
 public class ProductController {
-    private final ProductMap products;
 
-    public ProductController(ProductMap products) {
-        this.products = products;
+    private  final ItemService itemService;
+
+    public ProductController(ItemService itemService) {
+        this.itemService = itemService;
     }
 
+
     @PostMapping("/add-product")
-    public String createProduct(@ModelAttribute Product product) {
-        products.add(product);
-        return "test";
+    @ResponseStatus(value = HttpStatus.CREATED)
+    public ItemResponse createProduct(@RequestBody CreateProductRequest request) {
+
+        return itemService.addItem(request);
     }
 }
