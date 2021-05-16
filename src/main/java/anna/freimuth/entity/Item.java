@@ -23,6 +23,16 @@ public class Item {
 
     private Date expiringDate;
 
+    private Boolean deleted = false;
+
+    private Boolean getDeleted() {
+        return deleted;
+    }
+
+    public void setDelete(Boolean deleted) {
+        this.deleted = deleted;
+    }
+
     public long getId() {
         return id;
     }

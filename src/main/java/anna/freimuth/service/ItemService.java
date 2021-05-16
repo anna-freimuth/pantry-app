@@ -4,6 +4,7 @@ import anna.freimuth.entity.Item;
 import anna.freimuth.entity.ItemType;
 import anna.freimuth.repo.ItemRepo;
 import anna.freimuth.service.requests.CreateProductRequest;
+import anna.freimuth.service.requests.DeleteProductRequest;
 import anna.freimuth.service.responses.ItemResponse;
 import org.springframework.stereotype.Service;
 
@@ -26,7 +27,14 @@ public class ItemService {
     }
 
     public Item addItem(Item item) {
-
         return itemRepo.save(item);
+    }
+
+
+    public void deleteItem(DeleteProductRequest request) {
+
+        Item item = itemRepo.findById(request.id).get();
+        item.setDelete(true);
+        itemRepo.save(item);
     }
 }
