@@ -5,7 +5,7 @@ import org.springframework.data.repository.CrudRepository;
 
 import java.util.Collection;
 
-public interface ItemTypeRepo extends CrudRepository<ItemType,Integer>{
+public interface ItemTypeRepo extends CrudRepository<ItemType,Long>{
    ItemType findFirstByTypeName(String typeName);
 
 }
