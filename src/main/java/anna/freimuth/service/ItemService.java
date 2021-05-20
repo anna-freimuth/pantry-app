@@ -5,8 +5,11 @@ import anna.freimuth.entity.ItemType;
 import anna.freimuth.repo.ItemRepo;
 import anna.freimuth.service.requests.CreateProductRequest;
 import anna.freimuth.service.requests.DeleteProductRequest;
+import anna.freimuth.service.requests.PatchItemRequest;
 import anna.freimuth.service.responses.ItemResponse;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class ItemService {
@@ -30,11 +33,19 @@ public class ItemService {
         return itemRepo.save(item);
     }
 
-
     public void deleteItem(DeleteProductRequest request) {
 
         Item item = itemRepo.findById(request.id).get();
         item.setDelete(true);
         itemRepo.save(item);
+    }
+
+    public ItemResponse patchItem(PatchItemRequest request) {
+
+        Item item = itemRepo.findById(request.id).get(); // todo throw 404 exception
+        Optional<ItemType> itemType = itemTypeService.getItemById(request.typeId.orElse(0L));
+        item.update(request, itemType);
+        itemRepo.save(item);
+        return ItemResponse.fromItem(item);
     }
 }

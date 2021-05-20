@@ -3,6 +3,7 @@ package anna.freimuth.controller;
 import anna.freimuth.service.ItemService;
 import anna.freimuth.service.requests.CreateProductRequest;
 import anna.freimuth.service.requests.DeleteProductRequest;
+import anna.freimuth.service.requests.PatchItemRequest;
 import anna.freimuth.service.responses.ItemResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -30,5 +31,10 @@ public class ProductController {
     public void deleteProduct(@PathVariable Long id){
         DeleteProductRequest request = new DeleteProductRequest(id);
         itemService.deleteItem(request);
+    }
+
+    @PatchMapping("/foobar")
+    public ItemResponse patchProduct(@RequestBody PatchItemRequest request){
+        return itemService.patchItem(request);
     }
 }
