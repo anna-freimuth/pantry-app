@@ -1,10 +1,10 @@
 package anna.freimuth.service.requests;
 
-public class DeleteProductRequest {
+public class DeleteItemRequest {
 
     public long id;
 
-    public DeleteProductRequest(Long id) {
+    public DeleteItemRequest(Long id) {
         this.id = id;
     }
 }

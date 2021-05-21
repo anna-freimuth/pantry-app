@@ -1,27 +1,26 @@
 package anna.freimuth.controller;
 
 import anna.freimuth.service.ItemService;
-import anna.freimuth.service.requests.CreateProductRequest;
-import anna.freimuth.service.requests.DeleteProductRequest;
+import anna.freimuth.service.requests.CreateItemRequest;
+import anna.freimuth.service.requests.DeleteItemRequest;
 import anna.freimuth.service.requests.PatchItemRequest;
+import anna.freimuth.service.responses.ItemListResponse;
 import anna.freimuth.service.responses.ItemResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-@RequestMapping("/products")
+@RequestMapping("/item")
 @RestController
-public class ProductController {
-
+public class ItemRestController {
     private  final ItemService itemService;
 
-    public ProductController(ItemService itemService) {
+    public ItemRestController(ItemService itemService) {
         this.itemService = itemService;
     }
 
-
-    @PostMapping("/add-product")
+    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ItemResponse createProduct(@RequestBody CreateProductRequest request) {
+    public ItemResponse createProduct(@RequestBody CreateItemRequest request) {
 
         return itemService.addItem(request);
     }
@@ -29,12 +28,19 @@ public class ProductController {
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteProduct(@PathVariable Long id){
-        DeleteProductRequest request = new DeleteProductRequest(id);
+
+        DeleteItemRequest request = new DeleteItemRequest(id);
         itemService.deleteItem(request);
     }
 
-    @PatchMapping("/update")
+    @PatchMapping
     public ItemResponse patchProduct(@RequestBody PatchItemRequest request){
+
         return itemService.patchItem(request);
+    }
+
+    @GetMapping
+    public ItemListResponse list() {
+        return itemService.list();
     }
 }

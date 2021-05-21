@@ -1,15 +1,15 @@
 package anna.freimuth.entity;
 
-import anna.freimuth.service.requests.CreateProductRequest;
+import anna.freimuth.service.requests.CreateItemTypeRequest;
 
 import javax.persistence.*;
 
 @Entity
-@Table(name="item_types", schema = "pantry")
+@Table(name = "item_types", schema = "pantry")
 public class ItemType {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private  long id;
+    private long id;
 
     private String typeName;
 
@@ -39,11 +39,10 @@ public class ItemType {
         this.typeName = typeName;
     }
 
-    public static ItemType fromRequest(CreateProductRequest request) {
+    public static ItemType fromRequest(CreateItemTypeRequest request) {
 
         ItemType itemType = new ItemType();
-
-        itemType.typeName = request.name.strip();
+        itemType.typeName = request.typeName.strip();
         itemType.id = 0;
 
         return itemType;
