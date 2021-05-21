@@ -35,7 +35,7 @@ public class ItemType {
         return typeName;
     }
 
-    public void setTypeName(String type_name) {
+    public void setTypeName(String typeName) {
         this.typeName = typeName;
     }
 
