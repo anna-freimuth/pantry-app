@@ -3,9 +3,10 @@ package anna.freimuth.service;
 import anna.freimuth.entity.Item;
 import anna.freimuth.entity.ItemType;
 import anna.freimuth.repo.ItemRepo;
-import anna.freimuth.service.requests.CreateProductRequest;
-import anna.freimuth.service.requests.DeleteProductRequest;
+import anna.freimuth.service.requests.CreateItemRequest;
+import anna.freimuth.service.requests.DeleteItemRequest;
 import anna.freimuth.service.requests.PatchItemRequest;
+import anna.freimuth.service.responses.ItemListResponse;
 import anna.freimuth.service.responses.ItemResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -24,9 +25,9 @@ public class ItemService {
         this.itemRepo = itemRepo;
     }
 
-    public ItemResponse addItem(CreateProductRequest request) {
+    public ItemResponse addItem(CreateItemRequest request) {
 
-        ItemType itemType = itemTypeService.addItemTypeIfNotExists(request);
+        ItemType itemType = itemTypeService.getItem(request.itemTypeId);
         Item item = addItem(Item.fromRequest(request, itemType));
         return ItemResponse.fromItem(item);
     }
@@ -35,7 +36,7 @@ public class ItemService {
         return itemRepo.save(item);
     }
 
-    public void deleteItem(DeleteProductRequest request) {
+    public void deleteItem(DeleteItemRequest request) {
 
         Item item = itemRepo.findById(request.id).get();
         item.setDelete(true);
@@ -44,17 +45,21 @@ public class ItemService {
 
     public ItemResponse patchItem(PatchItemRequest request) {
 
-        Item item= findItem(request);
-        Optional<ItemType> itemType = itemTypeService.getItemById(request.typeId.orElse(0L));
+        Item item= findItem(request.id);
+        Optional<ItemType> itemType = itemTypeService.getOptionalItemType(request.typeId.orElse(0L));
         item.update(request, itemType);
         itemRepo.save(item);
         return ItemResponse.fromItem(item);
     }
 
-    public Item findItem(PatchItemRequest request){
+    public Item findItem(Long id){
 
-        Optional<Item> item = itemRepo.findById(request.id);
+        Optional<Item> item = itemRepo.findById(id);
         if (item.isEmpty()) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "item not found");
-        return itemRepo.findById(request.id).get();
+        return item.get();
+    }
+
+    public ItemListResponse list() {
+        return ItemListResponse.fromIterable(itemRepo.findAll());
     }
 }

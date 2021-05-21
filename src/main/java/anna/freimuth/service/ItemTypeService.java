@@ -2,8 +2,13 @@ package anna.freimuth.service;
 
 import anna.freimuth.entity.ItemType;
 import anna.freimuth.repo.ItemTypeRepo;
-import anna.freimuth.service.requests.CreateProductRequest;
+import anna.freimuth.service.requests.CreateItemTypeRequest;
+import anna.freimuth.service.requests.DeleteItemTypeRequest;
+import anna.freimuth.service.responses.ItemTypeListResponse;
+import anna.freimuth.service.responses.ItemTypeResponse;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Optional;
 
@@ -15,17 +20,35 @@ public class ItemTypeService {
         this.itemTypeRepo = itemTypeRepo;
     }
 
-    public ItemType addItemTypeIfNotExists(CreateProductRequest request) {
+    public ItemTypeResponse addItem(CreateItemTypeRequest request) {
 
-        ItemType item = getItem(request.name.strip());
-        if (item != null) return item;
-
-        return addItem(ItemType.fromRequest(request));
+        ItemType item = getItem(request.typeName.strip());
+        if (item != null) {
+            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Item Type already exists");
+        }
+        item = addItem(ItemType.fromRequest(request));
+        return ItemTypeResponse.fromItemType(item);
     }
 
-    public Optional<ItemType> getItemById(Long id) {
+    public void deleteItem(DeleteItemTypeRequest request) {
+
+        ItemType item = itemTypeRepo.findById(request.id).get();
+        item.setDeleted(true);
+        itemTypeRepo.save(item);
+    }
+
+    public Optional<ItemType> getOptionalItemType(Long id) {
 
         return itemTypeRepo.findById(id);
+    }
+
+    public ItemType getItem(Long id) {
+
+        Optional<ItemType> itemType = itemTypeRepo.findById(id);
+        if (itemType.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "item type not found");
+        }
+        return itemType.get();
     }
 
     private ItemType getItem(String name) {
@@ -33,10 +56,11 @@ public class ItemTypeService {
         return itemTypeRepo.findFirstByTypeName(name);
     }
 
-    private ItemType addItem(ItemType itemType) {
-
-        return itemTypeRepo.save(itemType);
+    public ItemType addItem(ItemType request) {
+        return itemTypeRepo.save(request);
     }
 
-
+    public ItemTypeListResponse list() {
+        return ItemTypeListResponse.fromIterable(itemTypeRepo.findAll());
+    }
 }

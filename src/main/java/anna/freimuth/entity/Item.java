@@ -1,7 +1,8 @@
 package anna.freimuth.entity;
 
-import anna.freimuth.service.requests.CreateProductRequest;
+import anna.freimuth.service.requests.CreateItemRequest;
 import anna.freimuth.service.requests.PatchItemRequest;
+import anna.freimuth.service.responses.ItemTypeResponse;
 
 import javax.persistence.*;
 import java.sql.Date;
@@ -9,11 +10,11 @@ import java.time.LocalDate;
 import java.util.Optional;
 
 @Entity
-@Table(name="item", schema = "pantry")
+@Table(name = "item", schema = "pantry")
 public class Item {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private  long id;
+    private long id;
 
     @OneToOne
     @JoinColumn(name = "type_id")
@@ -75,7 +76,7 @@ public class Item {
         this.expiringDate = expiringDate;
     }
 
-    public static Item fromRequest(CreateProductRequest request, ItemType itemType) {
+    public static Item fromRequest(CreateItemRequest request, ItemType itemType) {
 
         Item item = new Item();
 
