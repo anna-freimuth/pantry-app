@@ -7,7 +7,9 @@ import anna.freimuth.service.requests.CreateProductRequest;
 import anna.freimuth.service.requests.DeleteProductRequest;
 import anna.freimuth.service.requests.PatchItemRequest;
 import anna.freimuth.service.responses.ItemResponse;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Optional;
 
@@ -42,10 +44,17 @@ public class ItemService {
 
     public ItemResponse patchItem(PatchItemRequest request) {
 
-        Item item = itemRepo.findById(request.id).get(); // todo throw 404 exception
+        Item item= findItem(request);
         Optional<ItemType> itemType = itemTypeService.getItemById(request.typeId.orElse(0L));
         item.update(request, itemType);
         itemRepo.save(item);
         return ItemResponse.fromItem(item);
+    }
+
+    public Item findItem(PatchItemRequest request){
+
+        Optional<Item> item = itemRepo.findById(request.id);
+        if (item.isEmpty()) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "item not found");
+        return itemRepo.findById(request.id).get();
     }
 }

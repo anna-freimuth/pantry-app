@@ -3,7 +3,6 @@ package anna.freimuth.service.requests;
 import com.sun.istack.NotNull;
 import org.openapitools.jackson.nullable.JsonNullable;
 
-import java.sql.Date;
 import java.time.LocalDate;
 
 public class PatchItemRequest {

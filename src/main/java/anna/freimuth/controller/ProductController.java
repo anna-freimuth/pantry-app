@@ -33,7 +33,7 @@ public class ProductController {
         itemService.deleteItem(request);
     }
 
-    @PatchMapping("/foobar")
+    @PatchMapping("/update")
     public ItemResponse patchProduct(@RequestBody PatchItemRequest request){
         return itemService.patchItem(request);
     }
