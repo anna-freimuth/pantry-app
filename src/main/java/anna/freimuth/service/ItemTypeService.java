@@ -5,6 +5,8 @@ import anna.freimuth.repo.ItemTypeRepo;
 import anna.freimuth.service.requests.CreateProductRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class ItemTypeService {
     private final ItemTypeRepo itemTypeRepo;
@@ -19,6 +21,11 @@ public class ItemTypeService {
         if (item != null) return item;
 
         return addItem(ItemType.fromRequest(request));
+    }
+
+    public Optional<ItemType> getItemById(Long id) {
+
+        return itemTypeRepo.findById(id);
     }
 
     private ItemType getItem(String name) {

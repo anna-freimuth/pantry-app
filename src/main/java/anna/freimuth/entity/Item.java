@@ -1,10 +1,12 @@
 package anna.freimuth.entity;
 
 import anna.freimuth.service.requests.CreateProductRequest;
+import anna.freimuth.service.requests.PatchItemRequest;
 
 import javax.persistence.*;
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.Optional;
 
 @Entity
 @Table(name="item", schema = "pantry")
@@ -84,5 +86,16 @@ public class Item {
         item.setExpiringDate(Date.valueOf(request.expiringDate));
 
         return item;
+    }
+
+    public void update(PatchItemRequest request, Optional<ItemType> itemType) {
+
+        if (request.typeId.isPresent()) {
+
+            itemType.ifPresent(this::setItemType);
+        }
+        if (request.quantity.isPresent()) setQuantity(request.quantity.get());
+        if (request.addDate.isPresent()) setAddDate(Date.valueOf(request.addDate.get()));
+        if (request.expiringDate.isPresent()) setExpiringDate(Date.valueOf(request.expiringDate.get()));
     }
 }
