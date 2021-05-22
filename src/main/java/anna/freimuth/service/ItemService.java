@@ -38,7 +38,7 @@ public class ItemService {
 
     public void deleteItem(DeleteItemRequest request) {
 
-        Item item = itemRepo.findById(request.id).get();
+        Item item = findItem(request.id);
         item.setDelete(true);
         itemRepo.save(item);
     }

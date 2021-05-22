@@ -11,11 +11,13 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/item-type")
 @RestController
 public class ItemTypesRestController {
+
     private final ItemTypeService itemTypeService;
 
     public ItemTypesRestController(ItemTypeService itemTypeService) {
         this.itemTypeService = itemTypeService;
     }
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ItemTypeResponse createProduct(@RequestBody CreateItemTypeRequest request) {
@@ -25,7 +27,7 @@ public class ItemTypesRestController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteProduct(@PathVariable Long id){
+    public void deleteProduct(@PathVariable Long id) {
         DeleteItemTypeRequest request = new DeleteItemTypeRequest(id);
         itemTypeService.deleteItem(request);
     }
