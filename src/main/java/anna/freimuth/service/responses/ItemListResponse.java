@@ -1,12 +1,12 @@
 package anna.freimuth.service.responses;
 
 import anna.freimuth.entity.Item;
-import anna.freimuth.entity.ItemType;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ItemListResponse {
-    public Iterable<ItemResponse> list;
+    public List<ItemResponse> list;
 
     public static ItemListResponse fromIterable(Iterable<Item> list) {
 

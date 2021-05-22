@@ -2,7 +2,6 @@ package anna.freimuth.entity;
 
 import anna.freimuth.service.requests.CreateItemRequest;
 import anna.freimuth.service.requests.PatchItemRequest;
-import anna.freimuth.service.responses.ItemTypeResponse;
 
 import javax.persistence.*;
 import java.sql.Date;
@@ -28,7 +27,7 @@ public class Item {
 
     private Boolean deleted = false;
 
-    private Boolean getDeleted() {
+    public Boolean getDelete() {
         return deleted;
     }
 

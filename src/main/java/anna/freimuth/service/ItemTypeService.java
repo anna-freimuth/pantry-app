@@ -32,7 +32,7 @@ public class ItemTypeService {
 
     public void deleteItem(DeleteItemTypeRequest request) {
 
-        ItemType item = itemTypeRepo.findById(request.id).get();
+        ItemType item = getItem(request.id);
         item.setDeleted(true);
         itemTypeRepo.save(item);
     }
