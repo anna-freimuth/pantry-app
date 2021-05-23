@@ -8,6 +8,8 @@ import org.openapitools.jackson.nullable.JsonNullableModule;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 public class Config {
@@ -21,5 +23,16 @@ public class Config {
             .registerModule(new JavaTimeModule())
             .registerModule(new JsonNullableModule())
         ;
+    }
+
+    @Bean
+    public WebMvcConfigurer corsConfigurer() {
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/item").allowedOrigins("http://localhost:3000");
+                registry.addMapping("/item-type").allowedOrigins("http://localhost:3000");
+            }
+        };
     }
 }

@@ -12,6 +12,7 @@ public class ItemResponse {
     public long quantity;
     public Date addDate;
     public Date expiringDate;
+    public Boolean deleted;
 
     public static ItemResponse fromItem(Item item) {
 
@@ -23,7 +24,7 @@ public class ItemResponse {
         response.quantity = item.getQuantity();
         response.addDate = item.getAddDate();
         response.expiringDate = item.getExpiringDate();
-
+        response.deleted = item.getDelete();
         return response;
     }
 }

@@ -6,6 +6,7 @@ import anna.freimuth.entity.ItemType;
 public class ItemTypeResponse {
     public long id;
     public String typeName;
+    public Boolean deleted;
 
     public static ItemTypeResponse fromItemType(ItemType itemType) {
 
@@ -13,6 +14,7 @@ public class ItemTypeResponse {
 
         response.id = itemType.getId();
         response.typeName = itemType.getTypeName();
+        response.deleted = itemType.getDeleted();
 
         return response;
     }

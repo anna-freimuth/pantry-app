@@ -1,4 +1,4 @@
-package anna.freimuth.Config;
+package anna.freimuth.config;
 
 
 import org.springframework.boot.autoconfigure.flyway.FlywayMigrationStrategy;
