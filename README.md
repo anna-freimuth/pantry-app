@@ -1,6 +1,6 @@
 # Pantry app backend 
 
-##Project description
+## Project description
 
 An application that handles items of a pantry. 
 
