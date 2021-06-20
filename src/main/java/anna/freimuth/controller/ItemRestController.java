@@ -21,7 +21,7 @@ public class ItemRestController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    @Operation(summary = "Create a new item")
+    @Operation(summary = "Creating an item with full information")
     public ItemResponse createProduct(@RequestBody CreateItemRequest request) {
 
         return itemService.addItem(request);
@@ -44,7 +44,7 @@ public class ItemRestController {
     }
 
     @GetMapping
-    @Operation(summary = "Getting a list of items")
+    @Operation(summary = "List of all items with full information")
     public ItemListResponse list() {
         return itemService.list();
     }
